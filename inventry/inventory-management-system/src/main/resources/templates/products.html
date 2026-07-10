@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/theme-toggle.js}" defer></script>
+</head>
+<body>
+<div class="d-flex layout">
+    <aside class="sidebar d-flex flex-column">
+        <a class="brand" th:href="@{/dashboard}">Inventory IMS</a>
+        <nav class="nav flex-column p-2 gap-1">
+            <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
+            <a class="nav-link active" th:href="@{/products}">Products</a>
+            <a class="nav-link" th:href="@{/categories}">Categories</a>
+            <a class="nav-link" th:href="@{/suppliers}">Suppliers</a>
+            <a class="nav-link" th:href="@{/users}" sec:authorize="hasRole('ADMIN')">Users</a>
+            <a class="nav-link" th:href="@{/requests}" sec:authorize="hasRole('ADMIN')">Requests</a>
+            <a class="nav-link" th:href="@{/reports}">Reports</a>
+            <a class="nav-link" href="/reports#login-audit-log" sec:authorize="hasRole('ADMIN')">Login Audit</a>
+            <a class="nav-link" th:href="@{/low-stock}">Low Stock</a>
+            <form th:action="@{/logout}" method="post" class="mt-2">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button class="btn btn-warning w-100" type="submit">Logout</button>
+            </form>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Product Management</h3>
+            <div class="d-flex gap-2" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/export}" class="btn btn-success">Export Excel</a>
+                <a th:href="@{/products/new}" class="btn btn-primary">Add Product</a>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <form th:action="@{/search}" method="get" class="mb-3">
+                    <div class="input-group">
+                        <input type="text" name="keyword" class="form-control" placeholder="Search product" th:value="${keyword}">
+                        <button class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+                <a class="btn btn-outline-secondary btn-sm" th:href="@{/products}">Reset</a>
+            </div>
+        </div>
+
+        <div th:if="${category}" class="alert alert-info d-flex justify-content-between align-items-center">
+            <span>Showing category: <strong th:text="${category}"></strong></span>
+            <a class="btn btn-outline-primary btn-sm" th:href="@{/products}">View All Products</a>
+        </div>
+
+        <div class="card table-card shadow-sm">
+            <div class="table-responsive">
+                <table id="productsTable" class="table table-hover mb-0">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${products}" th:classappend="${p.quantity <= p.minimumStock} ? 'table-danger' : ''">
+                        <td th:text="${p.id}"></td>
+                        <td th:text="${p.name}"></td>
+                        <td th:text="${p.category}"></td>
+                        <td th:text="${#numbers.formatDecimal(p.price,1,2)}"></td>
+                        <td th:text="${p.quantity}"></td>
+                        <td>
+                            <img th:if="${p.image != null and !#strings.isEmpty(p.image)}"
+                                 th:src="@{'/images/' + ${p.image}}"
+                                 alt="img"
+                                 style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
+                            <span th:if="${p.image == null or #strings.isEmpty(p.image)}" class="text-muted">No image</span>
+                        </td>
+                        <td>
+                            <div sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{'/edit/' + ${p.id}}" class="btn btn-warning btn-sm">Edit</a>
+                                <button class="btn btn-danger btn-sm"
+                                        type="button"
+                                        th:attr="onclick=|confirmDelete(${p.id})|">
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(products)}" class="empty-state-row">
+                        <td colspan="7" class="text-center py-4 text-muted">No products found.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function getLengthMenu(totalRows) {
+            if (totalRows <= 50) {
+                return [10, 20, 50];
+            }
+
+            if (totalRows <= 200) {
+                return [10, 20, 50, 100];
+            }
+
+            if (totalRows <= 500) {
+                return [10, 20, 50, 100, 200];
+            }
+
+            return [10, 20, 50, 100, 200, 500];
+        }
+
+        const productsTable = $('#productsTable');
+        const emptyProductsRow = productsTable.find('tbody tr.empty-state-row');
+        const emptyProductsMessage = emptyProductsRow.text().trim() || 'No products found.';
+
+        if (emptyProductsRow.length) {
+            emptyProductsRow.remove();
+        }
+
+        productsTable.DataTable({
+            pageLength: 10,
+            lengthMenu: getLengthMenu(productsTable.find('tbody tr').length),
+            language: {
+                emptyTable: emptyProductsMessage
+            }
+        });
+    });
+
+    function confirmDelete(id){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This product will be deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location = "/delete/" + id;
+            }
+        });
+    }
+</script>
+</body>
+</html>
+
+
