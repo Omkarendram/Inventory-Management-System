@@ -1,294 +1,263 @@
-# Product Vision
-
-## Product Name
-
-Inventory Management System
-
-## Vision Statement
-
-Provide a simple internal platform that helps small or mid-sized operations teams track products, monitor stock levels, manage supporting master data, and control sensitive changes through approval workflows and reporting.
-
-The long-term vision is to replace fragmented inventory handling with a single, role-aware system that gives the organization better visibility, stronger operational discipline, and faster decision-making. The product is intended to support daily inventory work, reduce manual coordination, and create a reliable source of truth for stock, users, and supporting records.
-
-## Product Background
-
-Many growing businesses begin inventory tracking with spreadsheets, paper logs, or informal communication between store staff and managers. That approach may work at low scale, but it becomes increasingly difficult to maintain when product counts rise, stock levels change frequently, and multiple users need to access the same information.
-
-This project addresses that gap by introducing a centralized web application built on Spring Boot and MySQL. It allows the team to manage products, categories, suppliers, users, and reports in one place, while also enforcing access control and approval rules for sensitive changes.
-
-## Problem Statement
-
-Inventory operations often depend on manual spreadsheets or disconnected tools. That leads to:
-
-- Poor visibility into current stock
-- Delayed response to low-stock situations
-- Weak control over who can change inventory data
-- Limited reporting for stock, sales, and user activity
-- Errors when categories, suppliers, and users are managed informally
-
-These issues create business risk in several ways. Teams may overstock slow-moving products, run out of fast-moving items, or make decisions based on incomplete or outdated records. Managers also lose accountability when changes are not tied to a specific user or approval step. Over time, this reduces trust in the data and increases the cost of day-to-day operations.
-
-## Opportunity Statement
-
-The opportunity is to deliver a focused internal product that improves operational control without requiring a highly complex enterprise system. By combining inventory tracking, low-stock alerts, approval workflows, reporting, and user access control, the organization can improve stock accuracy and reduce manual overhead with a manageable implementation footprint.
-
-## Product Value Proposition
-
-The Inventory Management System provides:
-
-- One central place to manage inventory-related operations
-- Faster visibility into stock health and low-stock risk
-- Better governance through role-based access and approval flows
-- Cleaner operational reporting for managers and auditors
-- Reduced dependence on manual spreadsheet maintenance
-
-In practical terms, the product helps the business move from reactive inventory handling to controlled and traceable inventory management.
-
-## Target Users
-
-### Admin
-
-- Manages products, categories, suppliers, and users
-- Reviews and approves operational requests
-- Uses dashboards and exports to monitor the business
-- Needs traceability through user audit and stock movement history
-
-Admin users are typically supervisors, store managers, inventory heads, or system operators. They are responsible for data quality and operational oversight. Their primary concern is not just entering data, but maintaining control over who changes it, monitoring stock health, and generating reports for internal review.
-
-### Admin Needs
-
-- Quick access to a complete operational dashboard
-- Control over product, user, category, and supplier records
-- Visibility into low-stock products and recent activity
-- Approval tools for sensitive requests
-- Exportable reports for management review or external sharing
-
-### Standard User
-
-- Views inventory and low-stock data
-- Requests stock changes and new categories
-- Uses a limited dashboard and account controls
-- Needs a fast workflow without direct access to admin-only operations
-
-Standard users are typically store staff, warehouse operators, or inventory assistants. They interact with the system more frequently for day-to-day tasks, but should not have unrestricted authority to change master records or bypass review.
-
-### Standard User Needs
-
-- Fast access to current product and stock information
-- A clear view of low-stock items requiring attention
-- A simple way to request updates without admin access
-- Reliable account management and password changes
-
-## Stakeholders
-
-- Business owner or operations head
-- Inventory manager
-- Store or warehouse staff
-- System administrator
-- Audit or compliance reviewer
-- Management team consuming reports
-
-## Business Goals
-
-- Centralize inventory records in one application
-- Reduce stock-out risk through alerts and low-stock views
-- Introduce controlled approval for sensitive updates
-- Improve operational reporting and export capability
-- Track user access for accountability
-
-These business goals support both operational efficiency and governance. The system should help the organization spend less time reconciling records, respond faster to stock issues, and maintain an auditable trail of important changes.
-
-## Product Goals
-
-- Make daily inventory status visible within one dashboard
-- Ensure stock changes are captured consistently
-- Support search, filtering, and quick navigation across records
-- Provide role-based authorization with minimal complexity
-- Keep the system deployable on a standard Spring Boot plus MySQL setup
-
-The product goals are intentionally practical. This system is not trying to be a full enterprise resource planning platform. Instead, it focuses on solving the most important inventory management problems with a maintainable architecture and a straightforward user experience.
-
-## Strategic Objectives
-
-- Create a reliable single source of truth for operational inventory data
-- Minimize unauthorized or accidental changes through permission control
-- Increase visibility into product movement and stock health
-- Improve managerial insight through dashboards and exportable reports
-- Establish a foundation for future enhancements such as purchase orders or multi-location inventory
-
-## Key User Journeys
-
-### Admin Journey
-
-1. Log in to the system with admin credentials.
-2. Access the admin dashboard to review KPIs, charts, and low-stock warnings.
-3. Create or update products, categories, suppliers, and users.
-4. Review pending stock or category requests raised by standard users.
-5. Approve or reject requests based on business need.
-6. Export reports for products, stock, sales, stock movement, or user audit.
-
-### Standard User Journey
-
-1. Log in to the system with user credentials.
-2. Review dashboard and inventory data.
-3. Check low-stock items or search for products.
-4. Submit a request for stock adjustment or category creation.
-5. Manage account security through password change.
-6. Wait for admin approval before changes take effect.
-
-## In-Scope Features
-
-- Authentication with role-based access control
-- Admin and user dashboards
-- Product CRUD and image upload
-- Inventory listing, search, and category filtering
-- Low-stock detection and stock quantity updates
-- Category CRUD
-- Supplier CRUD
-- User management and profile updates
-- Change password flow
-- Approval requests for stock updates and category creation
-- Sales, stock movement, and user audit reporting
-- Excel exports
-- Email notification for low-stock products
-
-### Functional Scope Details
-
-#### Authentication and Authorization
-
-- Custom login page
-- Role-based route protection
-- Separate admin and user dashboards
-- Password change support for users
-
-#### Product and Inventory Management
-
-- Product creation, update, listing, and deletion
-- Product image upload
-- Product search by keyword
-- Product filtering by category
-- Quantity updates and low-stock monitoring
-- Tracking of inventory movement history
-
-#### Master Data Management
-
-- Category management
-- Supplier management
-- User management for admins
-- User profile update support
-
-#### Approval Workflow
-
-- User-submitted stock update requests
-- User-submitted category creation requests
-- Admin approval and rejection actions
-- Bulk approval and rejection of pending requests
-
-#### Reporting and Monitoring
-
-- Dashboard KPIs and summary charts
-- Sales reporting
-- Stock reporting
-- Product reporting
-- Stock movement reporting
-- User session audit reporting
-- Spreadsheet export capabilities
-
-#### Notifications
-
-- Email alerts for low-stock conditions
-- Configurable low-stock recipient through properties
-
-## Out-of-Scope for Current Release
-
-- Purchase order lifecycle
-- Barcode scanning
-- Multi-warehouse support
-- API-first external integrations
-- Mobile application
-- Advanced analytics or forecasting
-- Fine-grained workflow configuration
-
-These items are excluded to keep the initial release focused and achievable. They may be revisited in later iterations once the core inventory workflows are stable and well adopted.
-
-## Non-Functional Expectations
-
-- The system should be easy to run in a local or small office environment.
-- Pages should remain simple and understandable for non-technical staff.
-- Security rules should clearly separate admin and user privileges.
-- Data should persist reliably in MySQL.
-- Exports should be usable in common spreadsheet tools.
-- The application should remain maintainable with standard Spring Boot patterns.
-
-## Success Metrics
-
-- Stock records can be created, updated, searched, and exported without manual DB edits
-- Low-stock items are visible and trigger notification logic
-- Admin-only functions remain inaccessible to standard users
-- Approval requests can be created and resolved end to end
-- Reports are downloadable in spreadsheet form
-
-### Operational Success Indicators
-
-- Reduction in spreadsheet-based inventory maintenance
-- Faster turnaround time for identifying low-stock products
-- Lower number of unauthorized or uncontrolled inventory changes
-- Better traceability for login sessions and stock movements
-- Improved management visibility through dashboard and export usage
-
-### Adoption Indicators
-
-- Admin users use the dashboard and reports regularly
-- Standard users submit requests through the system instead of informal channels
-- Core records such as products, categories, and suppliers remain current in the application
-
-## Constraints and Assumptions
-
-- Requires a MySQL database named `inventory_db`
-- Runs on port `9090` by default
-- Uses local filesystem image storage at `C:/inventory-images/`
-- Current mail delivery depends on configured SMTP credentials
-- Current seeded users create one admin and one standard user on startup
-
-### Technical Assumptions
-
-- The application is deployed in an environment where Java 17 is available.
-- The target users access the system through a browser on an internal network or controlled environment.
-- SMTP configuration is valid if email notifications are required.
-- Local file storage is acceptable for the current deployment model.
-
-### Delivery Constraints
-
-- The current implementation favors simplicity over enterprise-scale extensibility.
-- Upload handling is tied to a fixed local path and may require environment-specific setup.
-- Some operational insights depend on the availability of sales and stock movement data.
-
-## Risks
-
-- Secrets are stored in `application.properties`, which is not production-safe
-- Image storage path is hardcoded and Windows-specific
-- There is limited visible automated test coverage
-- Report and dashboard quality depend on underlying sales and movement data integrity
-
-### Additional Risks
-
-- Demo or seeded credentials may be left unchanged in a non-development environment.
-- Manual deployment configuration may introduce environment drift.
-- Approval workflows may become bottlenecks if request volume grows.
-- Lack of pagination or scalability improvements may affect usability on larger datasets.
-
-## Future Vision
-
-After the current release is stable, the product can evolve toward a broader inventory operations platform. Potential future directions include:
-
-- Purchase and replenishment workflows
-- Supplier order tracking
-- Barcode or QR-based product handling
-- Multi-branch or multi-warehouse inventory support
-- Advanced dashboards and forecasting
-- API integration with billing or ERP systems
-- More granular permissions and configurable approval policies
-
-## Summary
-
-The Inventory Management System is designed as a practical, role-based web platform for improving inventory control, operational visibility, and accountability. It addresses real problems found in spreadsheet-driven environments by centralizing product data, enabling approval workflows, surfacing low-stock risks, and generating usable reports. Its near-term goal is to deliver a dependable operational tool, while its longer-term value lies in creating a scalable foundation for broader inventory digitization.
+# 📦 Enterprise Inventory Management System (IMS)
+
+[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://openjdk.org/projects/jdk/17/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.3-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Spring Security](https://img.shields.io/badge/Spring%20Security-6.x-blue.svg)](https://spring.io/projects/spring-security)
+[![Database](https://img.shields.io/badge/Database-MySQL%20%7C%20H2-blue.svg)](https://www.mysql.com/)
+[![Docker](https://img.shields.io/badge/Docker-Multi--stage-2496ED.svg)](https://www.docker.com/)
+[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF.svg)](https://github.com/features/actions)
+
+A production-grade, enterprise web application designed for streamlined inventory tracking, role-based access governance, stock movement auditing, dual-approval workflows, and low-stock automated alerts. Built with modern **Spring Boot 4**, **Spring Security**, **Spring Data JPA / Hibernate**, **Thymeleaf**, **Apache POI**, and containerized for turnkey deployment.
+
+---
+
+## 🏗️ Architecture & Component Overview
+
+```mermaid
+flowchart TD
+    Client["Browser Client / Mobile Browser"] --> Security["Spring Security Filter Chain\n(Form Login, Role Authorization, Session Audit)"]
+
+    subgraph Presentation ["Presentation Layer"]
+        Security --> Controllers["Spring MVC Controllers\n(Product, Category, Supplier, Admin,\nReport, User, Request, Account)"]
+        Controllers --> Thymeleaf["Thymeleaf Template Engine\n(Dark/Light Themes, Dynamic Fragments)"]
+    end
+
+    subgraph Business ["Service Layer"]
+        Controllers --> ProductService["ProductService\n(Low Stock Monitoring, Alert Triggers)"]
+        Controllers --> CategoryService["CategoryService"]
+        Controllers --> SupplierService["SupplierService"]
+        Controllers --> UserService["UserService & CustomUserDetailsService"]
+        Controllers --> ApprovalService["ApprovalRequestService\n(Two-person Rule for Stock & Catalog)"]
+        Controllers --> StockService["StockMovementService\n(Audit Trail: Added / Reduced)"]
+        Controllers --> EmailService["EmailService\n(SMTP Mail Notification)"]
+        Controllers --> AuditService["UserSessionAuditService\n(Login/Logout/Session Tracking)"]
+    end
+
+    subgraph Data ["Data Access Layer (Spring Data JPA)"]
+        ProductService --> Repos["JPA Repositories & HikariCP Pool"]
+        CategoryService --> Repos
+        SupplierService --> Repos
+        UserService --> Repos
+        ApprovalService --> Repos
+        StockService --> Repos
+        AuditService --> Repos
+    end
+
+    subgraph Persistence ["Persistence Layer"]
+        Repos --> MySQL[("Production: MySQL 8.0")]
+        Repos --> H2[("Test/Dev: In-Memory H2 DB")]
+    end
+```
+
+---
+
+## 🗄️ Entity-Relationship Model
+
+```mermaid
+erDiagram
+    USER ||--o{ USER_SESSION_AUDIT : logs
+    USER ||--o{ APPROVAL_REQUEST : requests
+    PRODUCT ||--o{ STOCK_MOVEMENT : tracks
+    CATEGORY ||--o{ PRODUCT : categorizes
+    SUPPLIER ||--o{ PRODUCT : supplies
+
+    USER {
+        Long id PK
+        string userId UK "e.g. ADMIN001, USER001"
+        string username
+        string password "BCrypt encoded"
+        string role "ADMIN / USER"
+        string email
+        string phone
+        string address
+    }
+
+    PRODUCT {
+        Long id PK
+        string name
+        string category
+        double price
+        int quantity
+        int minimumStock
+        string image "Relative upload filename"
+    }
+
+    CATEGORY {
+        Long id PK
+        string name
+        string description
+    }
+
+    SUPPLIER {
+        Long id PK
+        string name
+        string contact
+        string email
+        string address
+    }
+
+    STOCK_MOVEMENT {
+        Long id PK
+        Long productId FK
+        string productName
+        string movementType "ADDED / REDUCED"
+        int quantity
+        datetime timestamp
+    }
+
+    APPROVAL_REQUEST {
+        Long id PK
+        string requesterUserId
+        string requesterName
+        string requestType "STOCK_UPDATE / CATEGORY_ADD"
+        string status "PENDING / APPROVED / REJECTED"
+        Long productId
+        string productName
+        int currentQuantity
+        int requestedQuantity
+        string categoryName
+        string categoryDescription
+        datetime createdAt
+    }
+
+    USER_SESSION_AUDIT {
+        Long id PK
+        string userId
+        string ipAddress
+        datetime loginTime
+        datetime logoutTime
+        string sessionStatus
+    }
+```
+
+---
+
+## 🚀 Key Improvements & Enterprise Refactoring
+
+| Area | Before | Enterprise Refactored State |
+| :--- | :--- | :--- |
+| **Directory Structure** | Cluttered nested directories (`inventry/inventory-management-system/`) with typos and 23MB PPTX/XLSX dumped in root | Clean root-level Maven layout; project assets and agile tracking sheets organized in `docs/` |
+| **Security & Secrets** | Leaked Gmail App password & plaintext MySQL credentials in version control | Purged all hardcoded secrets; replaced with 12-factor environment variable interpolation with safe defaults; created `.env.example` |
+| **Application Entrypoint** | Duplicate `@SpringBootApplication` classes causing packaging ambiguity | Unified into single canonical `InventoryManagementApplication` |
+| **Cross-Platform Storage** | Hardcoded Windows path (`C:/inventory-images/`) breaking Linux/Mac/Docker | OS-agnostic configurable `app.upload.dir` with dynamic URI resolution in `WebConfig` |
+| **Database & Testing** | Rigid local MySQL dependency causing tests to fail when MySQL is offline | Integrated in-memory H2 database test profile (`application-test.properties`) allowing instant, zero-dependency CI runs |
+| **Automated Test Suite** | Single empty test class | 26 unit and integration tests covering Products, Categories, Users, Approval workflows, and Spring Security authorization |
+| **Containerization** | None | Production multi-stage `Dockerfile` with non-root security user & `docker-compose.yml` with MySQL health checks |
+| **CI/CD** | None | GitHub Actions CI workflow (`.github/workflows/ci.yml`) validating builds and test passes on every push and PR |
+
+---
+
+## 🔑 Default Credentials
+
+The application seeds default users upon startup via `UserDataInitializer`:
+
+| Role | User ID | Password | Access Level |
+| :--- | :--- | :--- | :--- |
+| **Admin** | `ADMIN001` | `admin123` | Full administrative controls: product CRUD, category CRUD, supplier CRUD, user management, approval workflows, Excel exports, audit logs |
+| **Standard User** | `USER001` | `user123` | Operational view: inventory catalog, low-stock alerts, stock update requests, category creation requests, password management |
+
+---
+
+## ⚙️ Configuration & Environment Variables
+
+Copy `.env.example` to `.env` or set the following environment variables:
+
+| Variable | Description | Default Value |
+| :--- | :--- | :--- |
+| `SERVER_PORT` | HTTP port the application listens on | `9090` |
+| `SPRING_DATASOURCE_URL` | JDBC URL for MySQL database | `jdbc:mysql://localhost:3306/inventory_db?...` |
+| `SPRING_DATASOURCE_USERNAME` | Database username | `root` |
+| `SPRING_DATASOURCE_PASSWORD` | Database password | *(empty)* |
+| `APP_UPLOAD_DIR` | Image uploads filesystem directory | `./uploads/images/` |
+| `SPRING_MAIL_HOST` | SMTP server host | `smtp.gmail.com` |
+| `SPRING_MAIL_PORT` | SMTP server port | `587` |
+| `SPRING_MAIL_USERNAME` | SMTP authentication username | *(empty)* |
+| `SPRING_MAIL_PASSWORD` | SMTP authentication password / app password | *(empty)* |
+| `LOW_STOCK_RECIPIENT_EMAIL` | Destination email for automated low-stock warnings | `admin@inventory.local` |
+
+---
+
+## 🛠️ Local Development & Testing
+
+### Prerequisites
+- **JDK 17** or higher (`java -version`)
+- **MySQL 8.0+** (for local runs) or **Docker**
+
+### 1. Run Automated Test Suite
+The test suite utilizes an in-memory H2 database with zero external dependencies:
+```bash
+./mvnw clean test
+```
+
+### 2. Run Application Locally
+```bash
+./mvnw spring-boot:run
+```
+Access the application at [http://localhost:9090](http://localhost:9090).
+
+### 3. Build Executable Jar
+```bash
+./mvnw clean package
+java -jar target/inventory-system-0.0.1-SNAPSHOT.jar
+```
+
+---
+
+## 🐳 Docker & Turnkey Deployment
+
+### Run with Docker Compose
+Spin up the Spring Boot application and a MySQL 8.0 container with persistent volumes:
+```bash
+docker compose up --build -d
+```
+
+### Check Logs & Status
+```bash
+docker compose ps
+docker compose logs -f app
+```
+
+To shut down:
+```bash
+docker compose down
+```
+
+---
+
+## 📂 Repository Organization
+
+```text
+├── .github/
+│   └── workflows/
+│       └── ci.yml                 # Automated Maven test & build pipeline
+├── docs/
+│   ├── presentation/              # System architecture & slide deck
+│   └── project_management/        # Agile tracking & sprint backlog
+├── src/
+│   ├── main/
+│   │   ├── java/com/inventory/
+│   │   │   ├── config/            # Security, Password, MVC, Audit handlers & Data seeders
+│   │   │   ├── controller/        # Web MVC Controllers (Thymeleaf endpoints & REST actions)
+│   │   │   ├── entity/            # JPA Data Entities (Product, User, Category, StockMovement...)
+│   │   │   ├── repository/        # Spring Data JPA Repositories
+│   │   │   └── service/           # Business Logic, Email alerts, and Workflow services
+│   │   └── resources/
+│   │       ├── static/            # CSS, JavaScript, theme togglers, and static assets
+│   │       ├── templates/         # Thymeleaf HTML views (dashboards, products, approvals...)
+│   │       └── application.properties # Production properties (env-var interpolated)
+│   └── test/
+│       ├── java/com/inventory/    # Unit & Integration test suites (26 tests)
+│       └── resources/             # In-memory H2 test profile & Mockito configuration
+├── .dockerignore
+├── .env.example                   # Sample environment configuration
+├── .gitignore
+├── Dockerfile                     # Multi-stage production container build
+├── docker-compose.yml             # Orchestration for App + MySQL
+├── pom.xml                        # Maven dependencies & build plugins
+└── README.md                      # Comprehensive documentation
+```
+
+---
+
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
