@@ -35,6 +35,6 @@ ENV JAVA_OPTS="-XX:MaxRAMPercentage=75.0 -XX:+UseG1GC -Djava.security.egd=file:/
 ENV SERVER_PORT=9090
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:9090/login || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT:-9090}/login || exit 1
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
