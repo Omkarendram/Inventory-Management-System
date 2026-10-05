@@ -64,4 +64,13 @@ class SecurityWebIntegrationTest {
         mockMvc.perform(get("/admin/dashboard"))
             .andExpect(status().isOk());
     }
+
+    @Test
+    @WithMockUser(username = "ADMIN001", roles = {"ADMIN"})
+    void testAdminCanTriggerLowStockReport() throws Exception {
+        mockMvc.perform(get("/admin/send-low-stock-report"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/admin/dashboard"))
+            .andExpect(flash().attributeExists("reportSuccess"));
+    }
 }

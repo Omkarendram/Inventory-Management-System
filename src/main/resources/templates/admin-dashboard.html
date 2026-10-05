@@ -33,8 +33,17 @@
 
     <main class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="mb-0">Admin Dashboard</h3>
+            <div>
+                <h3 class="mb-0">Admin Dashboard</h3>
+                <small class="text-muted"><i class="fas fa-clock me-1"></i>Daily Low-Stock Report scheduled at 10:00 AM</small>
+            </div>
             <div class="d-flex align-items-center gap-2">
+                <form th:action="@{/admin/send-low-stock-report}" method="post" class="mb-0">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <button class="btn btn-sm btn-outline-primary" type="submit" title="Send Daily Low-Stock Email Report to Admin Now">
+                        <i class="fas fa-paper-plane me-1"></i> Send Report Now
+                    </button>
+                </form>
                 <span class="user-info" sec:authentication="name"></span>
                 <span class="badge bg-success" sec:authentication="principal.authorities"></span>
                 <form th:action="@{/logout}" method="post" class="mb-0">
@@ -42,6 +51,12 @@
                     <button class="btn btn-sm btn-danger" type="submit">Logout</button>
                 </form>
             </div>
+        </div>
+
+        <div th:if="${reportSuccess}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <span th:text="${reportSuccess}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
 
         <div th:if="${lowStockMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">

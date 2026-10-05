@@ -174,6 +174,8 @@ Copy `.env.example` to `.env` or set the following environment variables:
 | `SPRING_MAIL_USERNAME` | SMTP authentication username | *(empty)* |
 | `SPRING_MAIL_PASSWORD` | SMTP authentication password / app password | *(empty)* |
 | `LOW_STOCK_RECIPIENT_EMAIL` | Destination email for automated low-stock warnings | `admin@inventory.local` |
+| `LOW_STOCK_REPORT_ENABLED` | Enable/disable daily low-stock scheduled report | `true` |
+| `LOW_STOCK_REPORT_CRON` | Cron expression for automated report | `0 0 10 * * ?` (Everyday at 10:00 AM) |
 
 ---
 
