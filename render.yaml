@@ -9,5 +9,3 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: dev
-      - key: PORT
-        value: 10000
